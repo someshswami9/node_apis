@@ -1,19 +1,32 @@
 import dotenv from 'dotenv';
+import express from 'express';
 dotenv.config();
-import app from './app';
 import { connectDB } from './config/dababase';
+import cors from 'cors';
+import corpRoutes from './routes/corp.routes';
 
-const PORT = process.env.PORT ?? 8080;
+const app = express();
 
-const startServer = async () => {
-  try {
-    await connectDB(); // Establish connection to the database
-    app.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
-    });
-  } catch (error) {
-    console.error('Error starting server:', error);
-  }
-};
 
-startServer();
+const PORT = process.env.PORT ?? 3000;
+
+app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+      });
+// const startServer = async () => {
+//   try {
+//     app.listen(PORT, () => {
+//       console.log(`Server is running on port ${PORT}`);
+//     });
+
+//   } catch (error) {
+//     console.error('Error starting server:', error);
+//   }
+// };
+app.use(express.json());
+app.use(cors({}));
+connectDB(); // Establish connection to the database
+
+app.use("/api/corp", corpRoutes);
+
+

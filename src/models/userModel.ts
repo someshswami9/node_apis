@@ -1,36 +1,39 @@
-// models/userModel.ts
+import { pool } from '../config/dababase';
+import bcrypt from 'bcrypt';
 
-import { pool } from "../config/dababase";
-
-export interface User {
-  userid: string;       // Custom user ID (e.g., "USER3625201")
-  username: string;     // Stores the user's email
-  password: string;     
-  created_at?: Date;    // Automatically set by the database if not provided
+export interface IUser {
+  id: number;
+  userid: string;             // e.g., "USMYBE171224DBWFKLM2GFKERKJH"
+  email: string;
+  password: string;           // hashed password
+  sso_enabled: boolean;
+  is_applied_ts: boolean;
+  is_profile_created: boolean;
+  fcmtoken: string | null;
+  profileinfo: any;           // additional profile info stored as JSON
+  created_at: Date;
+  updated_at: Date;
 }
 
-export const createUser = async (user: User): Promise<User> => {
-  const { userid, username, password } = user;
-  const result = await pool.query(
-    `INSERT INTO users (userid, username, password)
-     VALUES ($1, $2, $3) RETURNING *`,
-    [userid, username, password]
-  );
-  return result.rows[0];
-};
+export class User {
+  // Find a user by email
+  static async findByEmail(email: string): Promise<IUser | null> {
+    const query = 'SELECT * FROM users WHERE email = $1';
+    const result = await pool.query(query, [email]);
+    if (result.rows.length > 0) {
+      return result.rows[0] as IUser;
+    }
+    return null;
+  }
 
-export const findUserByUsername = async (username: string): Promise<User | null> => {
-  const result = await pool.query(
-    `SELECT * FROM users WHERE username = $1`,
-    [username]
-  );
-  return result.rows.length > 0 ? result.rows[0] : null;
-};
+  // Compare a plain text password with the hashed password
+  static async comparePassword(plainText: string, hashed: string): Promise<boolean> {
+    return bcrypt.compare(plainText, hashed);
+  }
 
-export const findUserByUserid = async (userid: string): Promise<User | null> => {
-  const result = await pool.query(
-    `SELECT * FROM users WHERE userid = $1`,
-    [userid]
-  );
-  return result.rows.length > 0 ? result.rows[0] : null;
-};
+  // Update the FCM token for a user
+  static async updateFCMToken(userid: string, fcmtoken: string): Promise<void> {
+    const query = 'UPDATE users SET fcmtoken = $1, updated_at = CURRENT_TIMESTAMP WHERE userid = $2';
+    await pool.query(query, [fcmtoken, userid]);
+  }
+}
