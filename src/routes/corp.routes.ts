@@ -21,23 +21,21 @@ router.post('/submitrequest', (req, res) => {
     const instructionData = {
         title: "Important Instructions",
         paragraphs: [
-            {
-                text: "Kindly",
-                link: {
-                    text: "read these instructions",
-                    url: "https://truecopy.in",
-                    target: "_blank"
-                },
-                suffix: " carefully before you proceed. If you have questions, kindly email"
+          {
+            text: "Kindly",
+            link: {
+              text: "read these instructions",
+              url: "https://truecopy.in",
+              target: "_blank"
             },
-            {
-                text: "",
-                link: {
-                    text: "support@truecopy.in",
-                    url: "mailto:support@truecopy.in"
-                },
-                suffix: "."
-            },
+            suffix: {
+              text: " carefully before you proceed. If you have questions, kindly email ",
+              link: {
+                text: "support@truecopy.in",
+                url: "mailto:support@truecopy.in"
+              }
+            }
+          },
             {
                 text: "Kindly download and use ONLY the templates from the instructions link above. DO NOT use older templates."
             }
@@ -46,6 +44,39 @@ router.post('/submitrequest', (req, res) => {
 
     // Form Fields Data
     const formFields = [
+      {
+        "name": "dept",
+        "label": "Institute / Department",
+        "type": "select",
+        "options": [
+            { "label": "Computer Engineering", "value": "computer_engineering" },
+            { "label": "Information Technology", "value": "information_technology" },
+            { "label": "Electrical Engineering", "value": "electrical_engineering" },
+            { "label": "Electronics Telecommunications", "value": "electronics_telecommunications" },
+            { "label": "Electronics Engineering", "value": "electronics_engineering" },
+            { "label": "Engineering Physics", "value": "engineering_physics" },
+            { "label": "Bio Medical Engineering", "value": "bio_medical_engineering" },
+            { "label": "Bio Technology", "value": "bio_technology" },
+            { "label": "Mechanical Engineering", "value": "mechanical_engineering" },
+            { "label": "Civil Engineering", "value": "civil_engineering" }
+        ],
+        "required": true,
+        "gridSize": "col-md-6",
+        "errorMessage": "Department is required."
+    },
+    {
+        "name": "degree",
+        "label": "Course",
+        "type": "select",
+        "options": [
+            { "label": "BE", "value": "BE" },
+            { "label": "ME", "value": "ME" },
+            { "label": "BTECH", "value": "BTECH" }
+        ],
+        "required": true,
+        "gridSize": "col-md-6",
+        "errorMessage": "Course selection is required."
+    },
         {
             "name": "firstname",
             "label": "Student First Name",
@@ -70,7 +101,7 @@ router.post('/submitrequest', (req, res) => {
             "type": "text",
             "placeholder": "Enter your full name",
             "required": true,
-            "gridSize": "col-md-12",
+            "gridSize": "col-md-6",
             "errorMessage": "Full name is required."
         },
         {
@@ -88,7 +119,7 @@ router.post('/submitrequest', (req, res) => {
             "type": "date",
             "placeholder": "DD-MM-YYYY",
             "required": true,
-            "gridSize": "col-md-6",
+            "gridSize": "col-md-3",
             "errorMessage": "Date of Birth is required."
         },
         {
@@ -100,7 +131,7 @@ router.post('/submitrequest', (req, res) => {
                 { "label": "Female", "value": "2" }
             ],
             "required": true,
-            "gridSize": "col-md-6",
+            "gridSize": "col-md-3",
             "errorMessage": "Gender is required."
         },
         {
@@ -129,7 +160,7 @@ router.post('/submitrequest', (req, res) => {
                 { "label": "2008", "value": "2018" },
             ],
             "required": true,
-            "gridSize": "col-md-6",
+            "gridSize": "col-md-3",
             "errorMessage": "Year of joining is required."
         },
         {
@@ -141,7 +172,7 @@ router.post('/submitrequest', (req, res) => {
                 { "label": "Yes", "value": "2" }
             ],
             "required": true,
-            "gridSize": "col-md-6",
+            "gridSize": "col-md-3",
             "errorMessage": "This field is required."
         },
         {
@@ -171,42 +202,19 @@ router.post('/submitrequest', (req, res) => {
                 { "label": "Other", "value": "Other" }
             ],
             "required": true,
-            "gridSize": "col-md-6",
+            "gridSize": "col-md-3",
             "errorMessage": "Year of passing is required."
         },
         {
-            "name": "dept",
-            "label": "Institute / Department",
-            "type": "select",
-            "options": [
-                { "label": "Computer Engineering", "value": "computer_engineering" },
-                { "label": "Information Technology", "value": "information_technology" },
-                { "label": "Electrical Engineering", "value": "electrical_engineering" },
-                { "label": "Electronics Telecommunications", "value": "electronics_telecommunications" },
-                { "label": "Electronics Engineering", "value": "electronics_engineering" },
-                { "label": "Engineering Physics", "value": "engineering_physics" },
-                { "label": "Bio Medical Engineering", "value": "bio_medical_engineering" },
-                { "label": "Bio Technology", "value": "bio_technology" },
-                { "label": "Mechanical Engineering", "value": "mechanical_engineering" },
-                { "label": "Civil Engineering", "value": "civil_engineering" }
-            ],
-            "required": true,
-            "gridSize": "col-md-6",
-            "errorMessage": "Department is required."
-        },
-        {
-            "name": "degree",
-            "label": "Course",
-            "type": "select",
-            "options": [
-                { "label": "BE", "value": "BE" },
-                { "label": "ME", "value": "ME" },
-                { "label": "BTECH", "value": "BTECH" }
-            ],
-            "required": true,
-            "gridSize": "col-md-6",
-            "errorMessage": "Course selection is required."
-        },
+          "name": "mobileno",
+          "label": "Contact Mobile Number",
+          "type": "text",
+          "placeholder": "Enter mobile number",
+          "required": true,
+          "gridSize": "col-md-3",
+          "errorMessage": "Mobile number is required."
+      },
+       
         {
             "name": "semester",
             "label": "Semesters completed (for which transcript is sought)",
@@ -227,15 +235,7 @@ router.post('/submitrequest', (req, res) => {
             "gridSize": "col-md-6",
             "errorMessage": "Semester selection is required."
         },
-        {
-            "name": "mobileno",
-            "label": "Contact Mobile Number",
-            "type": "text",
-            "placeholder": "Enter mobile number",
-            "required": true,
-            "gridSize": "col-md-6",
-            "errorMessage": "Mobile number is required."
-        },
+       
         {
             "name": "emailid",
             "label": "Student Email ID for receiving approved doc",
@@ -306,6 +306,39 @@ router.post('/docverification', (req, res) => {
 
     // Form Fields Data
     const formFields = [
+      {
+        "name": "dept",
+        "label": "Institute / Department",
+        "type": "select",
+        "options": [
+          { "label": "Computer Engineering", "value": "computer_engineering" },
+          { "label": "Information Technology", "value": "information_technology" },
+          { "label": "Electrical Engineering", "value": "electrical_engineering" },
+          { "label": "Electronics Telecommunications", "value": "electronics_telecommunications" },
+          { "label": "Electronics Engineering", "value": "electronics_engineering" },
+          { "label": "Engineering Physics", "value": "engineering_physics" },
+          { "label": "Bio Medical Engineering", "value": "bio_medical_engineering" },
+          { "label": "Bio Technology", "value": "bio_technology" },
+          { "label": "Mechanical Engineering", "value": "mechanical_engineering" },
+          { "label": "Civil Engineering", "value": "civil_engineering" }
+        ],
+        "required": true,
+        "gridSize": "col-md-6",
+        "errorMessage": "Department is required."
+      },      
+      {
+        "name": "degree",
+        "label": "Course",
+        "type": "select",
+        "options": [
+          { "label": "BE", "value": "BE" },
+          { "label": "ME", "value": "ME" },
+          { "label": "BTECH", "value": "BTECH" }
+        ],
+        "required": true,
+        "gridSize": "col-md-6",
+        "errorMessage": "Course selection is required."
+      },
         {
           "name": "firstname",
           "label": "Student/Candidate First Name (as on document)",
@@ -330,7 +363,7 @@ router.post('/docverification', (req, res) => {
           "type": "text",
           "placeholder": "Enter student number",
           "required": true,
-          "gridSize": "col-md-6",
+          "gridSize": "col-md-3",
           "errorMessage": "Student number is required."
         },
         {
@@ -360,42 +393,10 @@ router.post('/docverification', (req, res) => {
             { "label": "Other", "value": "Other" }
           ],
           "required": true,
-          "gridSize": "col-md-6",
+          "gridSize": "col-md-3",
           "errorMessage": "Year of passing is required."
         },
-        {
-          "name": "dept",
-          "label": "Institute / Department",
-          "type": "select",
-          "options": [
-            { "label": "Computer Engineering", "value": "computer_engineering" },
-            { "label": "Information Technology", "value": "information_technology" },
-            { "label": "Electrical Engineering", "value": "electrical_engineering" },
-            { "label": "Electronics Telecommunications", "value": "electronics_telecommunications" },
-            { "label": "Electronics Engineering", "value": "electronics_engineering" },
-            { "label": "Engineering Physics", "value": "engineering_physics" },
-            { "label": "Bio Medical Engineering", "value": "bio_medical_engineering" },
-            { "label": "Bio Technology", "value": "bio_technology" },
-            { "label": "Mechanical Engineering", "value": "mechanical_engineering" },
-            { "label": "Civil Engineering", "value": "civil_engineering" }
-          ],
-          "required": true,
-          "gridSize": "col-md-6",
-          "errorMessage": "Department is required."
-        },      
-        {
-          "name": "degree",
-          "label": "Course",
-          "type": "select",
-          "options": [
-            { "label": "BE", "value": "BE" },
-            { "label": "ME", "value": "ME" },
-            { "label": "BTECH", "value": "BTECH" }
-          ],
-          "required": true,
-          "gridSize": "col-md-6",
-          "errorMessage": "Course selection is required."
-        },
+        
       
         {
           "name": "emailid",
@@ -445,6 +446,7 @@ router.post('/docverification', (req, res) => {
     res.json({ instructionData, formFields });
 });
 
+
 router.post('/preloadrequest', (req, res) => {
     const { formType } = req.body;
 
@@ -475,6 +477,40 @@ router.post('/preloadrequest', (req, res) => {
 
     // Form Fields Data
     const formFields = [
+      {
+        "name": "dept",
+        "label": "Institute / Department",
+        "type": "select",
+        "options": [
+          { "label": "Computer Engineering", "value": "computer_engineering" },
+          { "label": "Information Technology", "value": "information_technology" },
+          { "label": "Electrical Engineering", "value": "electrical_engineering" },
+          { "label": "Electronics Telecommunications", "value": "electronics_telecommunications" },
+          { "label": "Electronics Engineering", "value": "electronics_engineering" },
+          { "label": "Engineering Physics", "value": "engineering_physics" },
+          { "label": "Bio Medical Engineering", "value": "bio_medical_engineering" },
+          { "label": "Bio Technology", "value": "bio_technology" },
+          { "label": "Mechanical Engineering", "value": "mechanical_engineering" },
+          { "label": "Civil Engineering", "value": "civil_engineering" }
+        ],
+        "required": true,
+        "gridSize": "col-md-6",
+        "errorMessage": "Department is required."
+      },      
+      {
+        "name": "degree",
+        "label": "Course",
+        "type": "select",
+        "options": [
+          { "label": "BE", "value": "BE" },
+          { "label": "ME", "value": "ME" },
+          { "label": "BTECH", "value": "BTECH" }
+        ],
+        "required": true,
+        "gridSize": "col-md-6",
+        "errorMessage": "Course selection is required."
+      },
+    
         {
           "name": "firstname",
           "label": "Student First Name",
@@ -508,7 +544,7 @@ router.post('/preloadrequest', (req, res) => {
             "type": "date",
             "placeholder": "DD-MM-YYYY",
             "required": true,
-            "gridSize": "col-md-6",
+            "gridSize": "col-md-3",
             "errorMessage": "Date of Birth is required."
         },
         {
@@ -520,7 +556,7 @@ router.post('/preloadrequest', (req, res) => {
                 { "label": "Female", "value": "2" }
             ],
             "required": true,
-            "gridSize": "col-md-6",
+            "gridSize": "col-md-3",
             "errorMessage": "Gender is required."
         },
         {
@@ -549,7 +585,7 @@ router.post('/preloadrequest', (req, res) => {
                 { "label": "2008", "value": "2018" },
             ],
             "required": true,
-            "gridSize": "col-md-6",
+            "gridSize": "col-md-3",
             "errorMessage": "Year of joining is required."
         },
         {
@@ -579,43 +615,10 @@ router.post('/preloadrequest', (req, res) => {
             { "label": "Other", "value": "Other" }
           ],
           "required": true,
-          "gridSize": "col-md-6",
+          "gridSize": "col-md-3",
           "errorMessage": "Year of passing is required."
         },
-        {
-          "name": "dept",
-          "label": "Institute / Department",
-          "type": "select",
-          "options": [
-            { "label": "Computer Engineering", "value": "computer_engineering" },
-            { "label": "Information Technology", "value": "information_technology" },
-            { "label": "Electrical Engineering", "value": "electrical_engineering" },
-            { "label": "Electronics Telecommunications", "value": "electronics_telecommunications" },
-            { "label": "Electronics Engineering", "value": "electronics_engineering" },
-            { "label": "Engineering Physics", "value": "engineering_physics" },
-            { "label": "Bio Medical Engineering", "value": "bio_medical_engineering" },
-            { "label": "Bio Technology", "value": "bio_technology" },
-            { "label": "Mechanical Engineering", "value": "mechanical_engineering" },
-            { "label": "Civil Engineering", "value": "civil_engineering" }
-          ],
-          "required": true,
-          "gridSize": "col-md-6",
-          "errorMessage": "Department is required."
-        },      
-        {
-          "name": "degree",
-          "label": "Course",
-          "type": "select",
-          "options": [
-            { "label": "BE", "value": "BE" },
-            { "label": "ME", "value": "ME" },
-            { "label": "BTECH", "value": "BTECH" }
-          ],
-          "required": true,
-          "gridSize": "col-md-6",
-          "errorMessage": "Course selection is required."
-        },
-      
+        
         {
           "name": "emailid",
           "label": "Student Email ID for receiving approved doc",
